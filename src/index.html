@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="output.css" />
+        <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+        />
+        <title>Expense Tracker</title>
+    </head>
+    <body
+        class="min-h-screen bg-gradient-to-tl from-black to-blue-950 text-slate-200 font-[Inter]"
+    >
+        <div class="max-w-4xl mx-auto mt-7 p-5">
+            <!-- Header -->
+            <header
+                class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+            >
+                <div>
+                    <h1 class="font-bold text-lg">
+                        Financial Envelopes System
+                    </h1>
+                    <div class="text-sm text-slate-400">
+                        Personalized expense tracker using the PYF and Envelope
+                        Budgeting systems.
+                    </div>
+                </div>
+                <div
+                    class="bg-white/5 px-3 py-1 rounded-full font-semibold text-sm"
+                >
+                    Based Income: <span id="displayIncome">7,000,000</span> T
+                </div>
+            </header>
+            <!-- Main Tracker Card -->
+            <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 mt-5">
+                <!-- Data Inputs: Salary, Target -->
+                <div class="flex flex-col md:flex-row gap-3">
+                    <div class="flex-1">
+                        <label class="block text-sm mb-2" for="Salary"
+                            >Monthly Salary (Toman):</label
+                        >
+                        <input
+                            class="w-full rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200 outline-none"
+                            type="text"
+                            name="Salary"
+                            id="monthly-salary-input"
+                            value="7000000"
+                        />
+                    </div>
+                    <div class="flex-1">
+                        <label class="block text-sm mb-2" for="Target"
+                            >Target (Toman):</label
+                        >
+                        <input
+                            class="w-full rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200 outline-none"
+                            type="text"
+                            name="Target"
+                            id="target-input"
+                            value="200000000"
+                        />
+                    </div>
+                    <div class="min-w-[160px] flex flex-col justify-end gap-2">
+                        <button
+                            class="bg-blue-500 text-[#042342] font-semibold rounded-lg px-3 py-2 hover:bg-blue-700"
+                            id="set-envelopes-btn"
+                        >
+                            Set Envelope Amounts
+                        </button>
+                        <button
+                            class="bg-rose-500 text-white font-semibold rounded-lg px-3 py-2 hover:bg-rose-700"
+                            id="reset-envelopes-btn"
+                        >
+                            Reset
+                        </button>
+                    </div>
+                </div>
+                <!-- Envelopes -->
+                <div
+                    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-4"
+                    id="envelopes"
+                >
+                    <div
+                        class="env bg-white/5 backdrop-blur-sm border-white/10 rounded-xl p-3"
+                    >
+                        <h3 class="text-sm font-semibold mb-1">Savings</h3>
+                        <div class="text-xs text-slate-400 mb-2">
+                            1,500,000 / 1,500,000 T
+                        </div>
+                        <div
+                            class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2"
+                        >
+                            <div
+                                class="w-[100%] h-full rounded-lg transition-all bg-gradient-to-r from-red-500 to-green-500"
+                            ></div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button
+                                class="incrementation bg-green-500 text-[#042342] font-semibold rounded-lg px-2 py-1 text-xs hover:bg-green-700"
+                                data-key="savings"
+                            >
+                                + Increase
+                            </button>
+                            <button
+                                class="decrementation bg-rose-500 text-[#042342] font-semibold rounded-lg px-2 py-1 text-xs hover:bg-rose-700"
+                                data-key="savings--dec"
+                            >
+                                - Decrease
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="env bg-white/5 backdrop-blur-sm border-white/10 rounded-xl p-3"
+                    >
+                        <h3 class="text-sm font-semibold mb-1">Needs</h3>
+                        <div class="text-xs text-slate-400 mb-2">
+                            4,500,000 / 4,500,000 T
+                        </div>
+                        <div
+                            class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2"
+                        >
+                            <div
+                                class="w-[100%] h-full rounded-lg transition-all bg-gradient-to-r from-red-500 to-green-500"
+                            ></div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button
+                                class="incrementation bg-green-500 text-[#042342] font-semibold rounded-lg px-2 py-1 text-xs hover:bg-green-700"
+                                data-key="needs"
+                            >
+                                + Increase
+                            </button>
+                            <button
+                                class="decrementation bg-rose-500 text-[#042342] font-semibold rounded-lg px-2 py-1 text-xs hover:bg-rose-700"
+                                data-key="needs--dec"
+                            >
+                                - Decrease
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        class="env bg-white/5 backdrop-blur-sm border-white/10 rounded-xl p-3"
+                    >
+                        <h3 class="text-sm font-semibold mb-1">Wants</h3>
+                        <div class="text-xs text-slate-400 mb-2">
+                            1,000,000 / 1,000,000 T
+                        </div>
+                        <div
+                            class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2"
+                        >
+                            <div
+                                class="w-[100%] h-full rounded-lg transition-all bg-gradient-to-r from-red-500 to-green-500"
+                            ></div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button
+                                class="incrementation bg-green-500 text-[#042342] font-semibold rounded-lg px-2 py-1 text-xs hover:bg-green-700"
+                                data-key="needs"
+                            >
+                                + Increase
+                            </button>
+                            <button
+                                class="decrementation bg-rose-500 text-[#042342] font-semibold rounded-lg px-2 py-1 text-xs hover:bg-rose-700"
+                                data-key="needs--dec"
+                            >
+                                - Decrease
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Progress -->
+                <div
+                    class="flex flex-col md:flex-row justify-between items-start md:items-center mt-4 gap-3"
+                >
+                    <div>
+                        <label class="block text-sm mb-2"
+                            >Add New Expense:</label
+                        >
+                        <div class="flex gap-2">
+                            <select
+                                class="rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200"
+                                name="Envelope"
+                                id="expenseEnvelope"
+                            >
+                                <option class="text-black" value="savings">
+                                    Savings
+                                </option>
+                                <option class="text-black" value="gym">
+                                    Gym
+                                </option>
+                                <option class="text-black" value="needs">
+                                    Needs
+                                </option>
+                                <option class="text-black" value="wants">
+                                    Wants
+                                </option>
+                            </select>
+                            <input
+                                class="rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200 outline-none"
+                                type="text"
+                                placeholder="Amount (Toman)"
+                                id="expenseAmount"
+                            />
+                            <button
+                                class="bg-blue-500 text-[#042342] font-semibold rounded-lg px-3 py-2 hover:bg-blue-700"
+                                id="submitExpenseBtn"
+                            >
+                                Submit Expense
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-left w-full md:w-auto">
+                        <div class="text-sm text-slate-400 mb-1">
+                            Progress made towards target:
+                        </div>
+                        <div
+                            class="w-full md:w-[300px] h-2 bg-white/10 rounded-lg overflow-hidden"
+                        >
+                            <div
+                                class="w-[0%] h-full rounded-lg transition-all bg-green-500"
+                                id="target-fill"
+                            ></div>
+                        </div>
+                        <div
+                            class="text-sm text-slate-400 mt-1"
+                            id="target-text"
+                        >
+                            0 / 200,000,000 T
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Total Savings -->
+            <div
+                class="bg-white/5 backdrop-blur-sm rounded-xl p-4 mt-3 flex items-center justify-between"
+            >
+                <div>
+                    <div class="text-sm text-slate-400">Total Savings:</div>
+                    <div class="text-lg font-bold" id="savings-total">0 T</div>
+                </div>
+                <div>
+                    <button
+                        class="bg-blue-500 hover:bg-blue-700 text-[#042342] font-semibold rounded-lg px-3 py-2"
+                        id="export-csv-report-btn"
+                    >
+                        Get Excel Report
+                    </button>
+                </div>
+            </div>
+            <!-- Footer -->
+            <footer class="mt-4 text-center text-sm text-slate-400">
+                &copy; 2025 All Rights Reserved | Mohammad Bazargan<br />Made
+                with ❤️
+            </footer>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
