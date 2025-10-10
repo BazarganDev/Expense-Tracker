@@ -64,6 +64,17 @@ function labelOf(key) {
     return labels[key];
 }
 
+// Percentage-based Coloring
+function getProgressColor(p) {
+    if (p < 30) {
+        return "bg-red-500";
+    }
+    if (p < 70) {
+        return "bg-yellow-400";
+    }
+    return "bg-green-500";
+}
+
 // Render Envelopes
 function renderEnvelopes() {
     envelopesElement.innerHTML = "";
@@ -77,7 +88,7 @@ function renderEnvelopes() {
         <h3 class="text-sm font-semibold mb-1">${labelOf(e)}</h3>
         <div class="text-xs text-slate-400 mb-2">${formatNumber(balance)} / ${formatNumber(total)} T</div>
         <div class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2">
-            <div class="h-full rounded-lg transition-all bg-gradient-to-r from-red-500 to-green-500" style="width: ${percentage}%"></div>
+            <div class="h-full rounded-lg transition-all ${getProgressColor(percentage)}" style="width: ${percentage}%"></div>
         </div>
         <div class="flex gap-2">
             <button
