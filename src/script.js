@@ -112,6 +112,7 @@ function renderEnvelopes() {
     savingsTotal.textContent = `${formatNumber(state.totalSavings)}`;
     document.querySelectorAll(".env button").forEach((b) => {
         b.addEventListener("click", (e) => {
+            // TODO: Incrementation / Decrementation
             alert("This button will be functional soon...");
         });
     });
@@ -127,14 +128,14 @@ function changeBalance(envKey, delta) {
 }
 
 function applySplit() {
-    const salarySplit = Math.max(0, parseInt(salaryInput.value) || DEFAULT.salary);
-    state.salary = salarySplit;
-    const targetSplit = Math.max(0, parseInt(targetInput.value) || DEFAULT.target);
-    state.target = targetSplit;
-    const needsSplit = Math.max(Math.round(salarySplit * 0.5), 3500000);
-    const wantsSplit = Math.max(Math.round(salarySplit * 0.3), 2100000);
-    const savingsSplit = Math.max(Math.round(salarySplit * 0.2), 1400000);
-    state.split = { needsSplit, wantsSplit, savingsSplit };
+    const salary = Math.max(0, parseInt(salaryInput.value) || DEFAULT.salary);
+    state.salary = salary;
+    const target = Math.max(0, parseInt(targetInput.value) || DEFAULT.target);
+    state.target = target;
+    const needs = Math.max(Math.round(salary * 0.5), 3500000);
+    const wants = Math.max(Math.round(salary * 0.3), 2100000);
+    const savings = Math.max(Math.round(salary * 0.2), 1400000);
+    state.split = { needs, wants, savings };
     state.balances = { ...state.split };
     save();
     renderEnvelopes();
@@ -169,6 +170,7 @@ submitExpenseBtn.addEventListener("click", () => {
 });
 
 exportCSVReportBtn.addEventListener("click", () => {
+    // TODO: Export data as a CSV file
     alert("This button will be functional soon...");
 });
 
