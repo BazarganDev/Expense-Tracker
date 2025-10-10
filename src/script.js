@@ -17,17 +17,17 @@ const exportCSVReportBtn = document.getElementById("export-csv-report-btn");
 
 // Data model with default split
 const DEFAULT = {
-    salary: 7000000,
+    salary: 0,
     target: 200000000,
     split: {
-        needs: 3500000,     // 50% of salary
-        wants: 2100000,     // 30% of salary
-        savings: 1400000,   // 20% of salary
+        needs: 0, // 50% of salary
+        wants: 0, // 30% of salary
+        savings: 0, // 20% of salary
     },
     balances: {
-        needs: 3500000,     // 50% of salary
-        wants: 2100000,     // 30% of salary
-        savings: 1400000,   // 20% of salary
+        needs: 0, // 50% of salary
+        wants: 0, // 30% of salary
+        savings: 0, // 20% of salary
     },
     totalSavings: 0,
 };
@@ -57,20 +57,11 @@ function load() {
 // Helper Functions
 function labelOf(key) {
     const labels = {
-        savings: "savings",
-        needs: "needs",
-        wants: "wants",
+        savings: "Savings",
+        needs: "Needs",
+        wants: "Wants",
     };
     return labels[key];
-}
-
-function colorOf(key) {
-    const colors = {
-        savings: "bg-gradient-to-r from-red-500 to-green-500",
-        needs: "bg-gradient-to-r from-red-500 to-green-500",
-        wants: "bg-gradient-to-r from-red-500 to-green-500",
-    };
-    return colors[key];
 }
 
 // Render Envelopes
@@ -79,19 +70,14 @@ function renderEnvelopes() {
     for (let e of ["savings", "needs", "wants"]) {
         const balance = state.balances[e];
         const total = state.split[e];
-        const percentage = Math.min(100, Math.round((balance / total) * 100));
+        const percentage = Math.min(100, Math.round((balance / total) * 100)) || 0;
         const envelopeCard = document.createElement("div");
-        envelopeCard.className =
-            "env bg-white/5 backdrop-blur-sm border-white/10 rounded-xl p-3";
+        envelopeCard.className = "env bg-white/5 backdrop-blur-sm border-white/10 rounded-xl p-3";
         envelopeCard.innerHTML = `
         <h3 class="text-sm font-semibold mb-1">${labelOf(e)}</h3>
-        <div class="text-xs text-slate-400 mb-2">${formatNumber(
-            balance
-        )} / ${formatNumber(total)} T</div>
+        <div class="text-xs text-slate-400 mb-2">${formatNumber(balance)} / ${formatNumber(total)} T</div>
         <div class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2">
-            <div class="h-full rounded-lg transition-all ${colorOf(
-                e
-            )}" style="width: ${percentage}"></div>
+            <div class="h-full rounded-lg transition-all bg-gradient-to-r from-red-500 to-green-500" style="width: ${percentage}%"></div>
         </div>
         <div class="flex gap-2">
             <button
@@ -107,7 +93,7 @@ function renderEnvelopes() {
     }
     displayIncome.textContent = formatNumber(state.salary);
     targetText.textContent = `${formatNumber(state.totalSavings)} / ${formatNumber(state.target)}`;
-    const progress = Math.min(100, Math.round((state.totalSavings / state.target) * 100));
+    const progress = Math.min(100,Math.round((state.totalSavings / state.target) * 100));
     targetFill.style.width = `${progress}%`;
     savingsTotal.textContent = `${formatNumber(state.totalSavings)}`;
     document.querySelectorAll(".env button").forEach((b) => {
@@ -129,12 +115,12 @@ function changeBalance(envKey, delta) {
 
 function applySplit() {
     const salary = Math.max(0, parseInt(salaryInput.value) || DEFAULT.salary);
-    state.salary = salary;
     const target = Math.max(0, parseInt(targetInput.value) || DEFAULT.target);
-    state.target = target;
     const needs = Math.max(Math.round(salary * 0.5), 3500000);
     const wants = Math.max(Math.round(salary * 0.3), 2100000);
     const savings = Math.max(Math.round(salary * 0.2), 1400000);
+    state.salary = salary;
+    state.target = target;
     state.split = { needs, wants, savings };
     state.balances = { ...state.split };
     save();
