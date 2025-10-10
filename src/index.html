@@ -30,7 +30,7 @@
                 <div
                     class="bg-white/5 px-3 py-1 rounded-full font-semibold text-sm"
                 >
-                    Based Income: <span id="displayIncome">7,000,000</span> T
+                    Based Income: <span id="displayIncome">0</span> T
                 </div>
             </header>
             <!-- Main Tracker Card -->
@@ -46,7 +46,7 @@
                             type="text"
                             name="Salary"
                             id="monthly-salary-input"
-                            value="7000000"
+                            value="0"
                         />
                     </div>
                     <div class="flex-1">
@@ -86,7 +86,7 @@
                     >
                         <h3 class="text-sm font-semibold mb-1">Savings</h3>
                         <div class="text-xs text-slate-400 mb-2">
-                            1,400,000 / 1,400,000 T
+                            0 / 0 T
                         </div>
                         <div
                             class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2"
@@ -115,7 +115,7 @@
                     >
                         <h3 class="text-sm font-semibold mb-1">Needs</h3>
                         <div class="text-xs text-slate-400 mb-2">
-                            3,500,000 / 3,500,000 T
+                            0 / 0 T
                         </div>
                         <div
                             class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2"
@@ -144,7 +144,7 @@
                     >
                         <h3 class="text-sm font-semibold mb-1">Wants</h3>
                         <div class="text-xs text-slate-400 mb-2">
-                            2,100,000 / 2,100,000 T
+                            0 / 0 T
                         </div>
                         <div
                             class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2"
@@ -175,7 +175,39 @@
                 >
                     <div>
                         <label class="block text-sm mb-2"
-                            >Add New Expense:</label
+                            >Add Deposit:</label
+                        >
+                        <div class="flex gap-2">
+                            <select
+                                class="rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200"
+                                name="Envelope"
+                                id="depositEnvelope"
+                            >
+                                <option class="text-black" value="savings">
+                                    Savings
+                                </option>
+                            </select>
+                            <input
+                                class="rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200 outline-none"
+                                type="text"
+                                placeholder="Amount (Toman)"
+                                id="depositAmount"
+                            />
+                            <button
+                                class="bg-blue-500 text-[#042342] font-semibold rounded-lg px-3 py-2 hover:bg-blue-700"
+                                id="submitDepositBtn"
+                            >
+                                Submit Deposit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="flex flex-col md:flex-row justify-between items-start md:items-center mt-4 gap-3"
+                >
+                    <div>
+                        <label class="block text-sm mb-2"
+                            >Add Expense:</label
                         >
                         <div class="flex gap-2">
                             <select
@@ -183,9 +215,6 @@
                                 name="Envelope"
                                 id="expenseEnvelope"
                             >
-                                <option class="text-black" value="savings">
-                                    Savings
-                                </option>
                                 <option class="text-black" value="needs">
                                     Needs
                                 </option>

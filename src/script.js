@@ -3,6 +3,8 @@ const envelopesElement = document.getElementById("envelopes");
 const salaryInput = document.getElementById("monthly-salary-input");
 const targetInput = document.getElementById("target-input");
 const displayIncome = document.getElementById("displayIncome");
+const depositEnvelope = document.getElementById("depositEnvelope");
+const depositAmount = document.getElementById("depositAmount");
 const expenseEnvelope = document.getElementById("expenseEnvelope");
 const expenseAmount = document.getElementById("expenseAmount");
 const targetFill = document.getElementById("target-fill");
@@ -12,6 +14,7 @@ const savingsTotal = document.getElementById("savings-total");
 // Buttons
 const setEnvelopesBtn = document.getElementById("set-envelopes-btn");
 const resetBtn = document.getElementById("reset-envelopes-btn");
+const submitDepositBtn = document.getElementById("submitDepositBtn");
 const submitExpenseBtn = document.getElementById("submitExpenseBtn");
 const exportCSVReportBtn = document.getElementById("export-csv-report-btn");
 
@@ -127,13 +130,13 @@ function changeBalance(envKey, delta) {
 function applySplit() {
     const salary = Math.max(0, parseInt(salaryInput.value) || DEFAULT.salary);
     const target = Math.max(0, parseInt(targetInput.value) || DEFAULT.target);
-    const needs = Math.max(Math.round(salary * 0.5), 3500000);
-    const wants = Math.max(Math.round(salary * 0.3), 2100000);
-    const savings = Math.max(Math.round(salary * 0.2), 1400000);
+    const needs = Math.max(Math.round(salary * 0.5), 0);
+    const wants = Math.max(Math.round(salary * 0.3), 0);
+    const savings = Math.max(Math.round(salary * 0.2), 0);
     state.salary = salary;
     state.target = target;
     state.split = { needs, wants, savings };
-    state.balances = { ...state.split };
+    state.balances = { needs, wants, savings: 0 };
     save();
     renderEnvelopes();
 }
@@ -148,6 +151,20 @@ resetBtn.addEventListener("click", () => {
     }
 });
 
+submitDepositBtn.addEventListener("click", () => {
+    const deposit = depositEnvelope.value;
+    const amount = parseInt(depositAmount.value);
+    if (!amount || amount <= 0) {
+        alert("Enter deposit amount!");
+        return;
+    }
+    state.totalSavings += amount;
+    state.balances.savings += amount;
+    depositAmount.value = "";
+    save();
+    renderEnvelopes();
+})
+
 submitExpenseBtn.addEventListener("click", () => {
     const expense = expenseEnvelope.value;
     const amount = parseInt(expenseAmount.value);
@@ -155,12 +172,7 @@ submitExpenseBtn.addEventListener("click", () => {
         alert("Enter expense amount!");
         return;
     }
-    if (expense === "savings") {
-        state.totalSavings += amount;
-        state.balances.savings += amount;
-    } else {
-        state.balances[expense] = Math.max(0, state.balances[expense] - amount);
-    }
+    state.balances[expense] = Math.max(0, state.balances[expense] - amount);
     expenseAmount.value = "";
     save();
     renderEnvelopes();
