@@ -8,6 +8,78 @@
             rel="stylesheet"
             href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
         />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <style>
+            .swal2-popup-custom {
+                background: rgba(15, 23, 42, 0.95) !important;
+                backdrop-filter: blur(10px) !important;
+                border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                border-radius: 12px !important;
+                font-family: "Inter", sans-serif !important;
+            }
+
+            .swal2-title-custom {
+                color: #e2e8f0 !important;
+                font-weight: 600 !important;
+                font-size: 1.25rem !important;
+            }
+
+            .swal2-content-custom {
+                color: #94a3b8 !important;
+                font-size: 0.875rem !important;
+            }
+
+            .swal2-confirm {
+                background: #3b82f6 !important;
+                border: none !important;
+                border-radius: 8px !important;
+                font-weight: 600 !important;
+                padding: 8px 16px !important;
+                transition: all 0.2s ease !important;
+            }
+
+            .swal2-confirm:hover {
+                background: #2563eb !important;
+                transform: translateY(-1px) !important;
+            }
+
+            .swal2-cancel {
+                background: #6b7280 !important;
+                border: none !important;
+                border-radius: 8px !important;
+                font-weight: 600 !important;
+                padding: 8px 16px !important;
+                transition: all 0.2s ease !important;
+            }
+
+            .swal2-cancel:hover {
+                background: #4b5563 !important;
+                transform: translateY(-1px) !important;
+            }
+
+            .swal2-actions {
+                gap: 12px !important;
+            }
+
+            .swal2-icon {
+                border: none !important;
+            }
+
+            .swal2-icon.swal2-warning {
+                color: #f59e0b !important;
+                border-color: #f59e0b !important;
+            }
+
+            .swal2-icon.swal2-success {
+                color: #10b981 !important;
+                border-color: #10b981 !important;
+            }
+
+            .swal2-icon.swal2-info {
+                color: #3b82f6 !important;
+                border-color: #3b82f6 !important;
+            }
+        </style>
         <title>Expense Tracker</title>
     </head>
     <body
@@ -85,9 +157,7 @@
                         class="env bg-white/5 backdrop-blur-sm border-white/10 rounded-xl p-3"
                     >
                         <h3 class="text-sm font-semibold mb-1">Savings</h3>
-                        <div class="text-xs text-slate-400 mb-2">
-                            0 / 0 T
-                        </div>
+                        <div class="text-xs text-slate-400 mb-2">0 / 0 T</div>
                         <div
                             class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2"
                         >
@@ -114,9 +184,7 @@
                         class="env bg-white/5 backdrop-blur-sm border-white/10 rounded-xl p-3"
                     >
                         <h3 class="text-sm font-semibold mb-1">Needs</h3>
-                        <div class="text-xs text-slate-400 mb-2">
-                            0 / 0 T
-                        </div>
+                        <div class="text-xs text-slate-400 mb-2">0 / 0 T</div>
                         <div
                             class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2"
                         >
@@ -143,9 +211,7 @@
                         class="env bg-white/5 backdrop-blur-sm border-white/10 rounded-xl p-3"
                     >
                         <h3 class="text-sm font-semibold mb-1">Wants</h3>
-                        <div class="text-xs text-slate-400 mb-2">
-                            0 / 0 T
-                        </div>
+                        <div class="text-xs text-slate-400 mb-2">0 / 0 T</div>
                         <div
                             class="w-full h-2 bg-white/10 rounded-lg overflow-hidden mb-2"
                         >
@@ -174,9 +240,7 @@
                     class="flex flex-col md:flex-row justify-between items-start md:items-center mt-4 gap-3"
                 >
                     <div>
-                        <label class="block text-sm mb-2"
-                            >Add Deposit:</label
-                        >
+                        <label class="block text-sm mb-2">Add Deposit:</label>
                         <div class="flex gap-2">
                             <select
                                 class="rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200"
@@ -206,9 +270,7 @@
                     class="flex flex-col md:flex-row justify-between items-start md:items-center mt-4 gap-3"
                 >
                     <div>
-                        <label class="block text-sm mb-2"
-                            >Add Expense:</label
-                        >
+                        <label class="block text-sm mb-2">Add Expense:</label>
                         <div class="flex gap-2">
                             <select
                                 class="rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200"
@@ -264,14 +326,6 @@
                 <div>
                     <div class="text-sm text-slate-400">Total Savings:</div>
                     <div class="text-lg font-bold" id="savings-total">0 T</div>
-                </div>
-                <div>
-                    <button
-                        class="bg-blue-500 hover:bg-blue-700 text-[#042342] font-semibold rounded-lg px-3 py-2"
-                        id="export-csv-report-btn"
-                    >
-                        Get Excel Report
-                    </button>
                 </div>
             </div>
             <!-- Footer -->
