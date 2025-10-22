@@ -7,9 +7,12 @@ const depositEnvelope = document.getElementById("depositEnvelope");
 const depositAmount = document.getElementById("depositAmount");
 const expenseEnvelope = document.getElementById("expenseEnvelope");
 const expenseAmount = document.getElementById("expenseAmount");
+const expenseDescription = document.getElementById("expenseDescription");
 const targetFill = document.getElementById("target-fill");
 const targetText = document.getElementById("target-text");
 const savingsTotal = document.getElementById("savings-total");
+const expenseLogs = document.getElementById("expenseLogs");
+const clearLogsBtn = document.getElementById("clearLogsBtn");
 
 // Buttons
 const setEnvelopesBtn = document.getElementById("set-envelopes-btn");
@@ -32,10 +35,16 @@ const DEFAULT = {
         savings: 0, // 20% of salary
     },
     totalSavings: 0,
+    expenseLogs: [], // Array to store expense logs
 };
 
 // Expense State
 let state = load() || structuredClone(DEFAULT);
+
+// Ensure expenseLogs exists for backward compatibility
+if (!state.expenseLogs) {
+    state.expenseLogs = [];
+}
 
 // Readable Numbers
 function formatNumber(n) {
@@ -64,6 +73,51 @@ function labelOf(key) {
         wants: "Wants",
     };
     return labels[key];
+}
+
+// Log expense function
+function logExpense(envelope, amount, description) {
+    const logEntry = {
+        id: Date.now(),
+        timestamp: new Date().toLocaleString(),
+        envelope: envelope,
+        amount: amount,
+        description: description || "No description",
+        envelopeLabel: labelOf(envelope),
+    };
+    state.expenseLogs.unshift(logEntry); // Add to beginning of array (most recent first)
+    save();
+    renderExpenseLogs();
+}
+
+// Render expense logs
+function renderExpenseLogs() {
+    if (state.expenseLogs.length === 0) {
+        expenseLogs.innerHTML =
+            '<div class="text-sm text-slate-400 text-center py-4">No expenses logged yet</div>';
+        return;
+    }
+
+    expenseLogs.innerHTML = state.expenseLogs
+        .map(
+            (log) => `
+        <div class="bg-white/5 rounded-lg p-3 mb-2 border border-white/10">
+            <div class="flex justify-between items-start mb-1">
+                <span class="text-sm font-semibold text-${
+                    log.envelope === "needs" ? "blue" : "purple"
+                }-400">
+                    ${log.envelopeLabel}
+                </span>
+                <span class="text-sm font-bold text-red-400">-${formatNumber(
+                    log.amount
+                )} T</span>
+            </div>
+            <div class="text-xs text-slate-400 mb-1">${log.timestamp}</div>
+            <div class="text-sm text-slate-300">${log.description}</div>
+        </div>
+    `
+        )
+        .join("");
 }
 
 // Percentage-based Coloring
@@ -97,16 +151,6 @@ function renderEnvelopes() {
             <div class="h-full rounded-lg transition-all ${getProgressColor(
                 percentage
             )}" style="width: ${percentage}%"></div>
-        </div>
-        <div class="flex gap-2">
-            <button
-                class="incrementation bg-green-500 text-[#042342] font-semibold rounded-lg px-2 py-1 text-xs hover:bg-green-700"
-                data-key="${e}">+ Increase
-            </button>
-            <button
-                class="decrementation bg-rose-500 text-[#042342] font-semibold rounded-lg px-2 py-1 text-xs hover:bg-rose-700"
-                data-key="${e}--dec">- Decrease
-            </button>
         </div>`;
         envelopesElement.appendChild(envelopeCard);
     }
@@ -186,6 +230,8 @@ resetBtn.addEventListener("click", () => {
         if (result.isConfirmed) {
             localStorage.removeItem("expense_state");
             state = structuredClone(DEFAULT);
+            salaryInput.value = "0";
+            targetInput.value = "0";
             save();
             renderEnvelopes();
         }
@@ -222,6 +268,8 @@ submitDepositBtn.addEventListener("click", () => {
 submitExpenseBtn.addEventListener("click", () => {
     const expense = expenseEnvelope.value;
     const amount = parseInt(expenseAmount.value);
+    const description = expenseDescription.value.trim();
+
     if (!amount || amount <= 0) {
         Swal.fire({
             title: "Invalid Amount",
@@ -239,10 +287,84 @@ submitExpenseBtn.addEventListener("click", () => {
         });
         return;
     }
+
+    // Check if there's enough balance
+    if (state.balances[expense] < amount) {
+        Swal.fire({
+            title: "Insufficient Balance",
+            text: `You don't have enough balance in ${labelOf(
+                expense
+            )} envelope!`,
+            icon: "warning",
+            confirmButtonText: "OK",
+            background: "#0f172a",
+            color: "#e2e8f0",
+            confirmButtonColor: "#3b82f6",
+            customClass: {
+                popup: "swal2-popup-custom",
+                title: "swal2-title-custom",
+                content: "swal2-content-custom",
+            },
+        });
+        return;
+    }
+
+    // Update balance
     state.balances[expense] = Math.max(0, state.balances[expense] - amount);
+
+    // Log the expense
+    logExpense(expense, amount, description);
+
+    // Clear form
     expenseAmount.value = "";
+    expenseDescription.value = "";
+
     save();
     renderEnvelopes();
+
+    // Show success message
+    Swal.fire({
+        title: "Expense Added",
+        text: `Expense of ${formatNumber(amount)} T logged successfully!`,
+        icon: "success",
+        confirmButtonText: "OK",
+        background: "#0f172a",
+        color: "#e2e8f0",
+        confirmButtonColor: "#10b981",
+        customClass: {
+            popup: "swal2-popup-custom",
+            title: "swal2-title-custom",
+            content: "swal2-content-custom",
+        },
+    });
+});
+
+// Clear logs functionality
+clearLogsBtn.addEventListener("click", () => {
+    Swal.fire({
+        title: "Clear Expense Logs",
+        text: "Are you sure you want to clear all expense logs? This action cannot be undone.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, clear them!",
+        cancelButtonText: "Cancel",
+        background: "#0f172a",
+        color: "#e2e8f0",
+        confirmButtonColor: "#ef4444",
+        cancelButtonColor: "#6b7280",
+        customClass: {
+            popup: "swal2-popup-custom",
+            title: "swal2-title-custom",
+            content: "swal2-content-custom",
+        },
+    }).then((result) => {
+        if (result.isConfirmed) {
+            state.expenseLogs = [];
+            save();
+            renderExpenseLogs();
+        }
+    });
 });
 
 renderEnvelopes();
+renderExpenseLogs();

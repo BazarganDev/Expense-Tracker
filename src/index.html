@@ -165,20 +165,6 @@
                                 class="h-full rounded-lg transition-all bg-gradient-to-r from-red-500 to-green-500"
                             ></div>
                         </div>
-                        <div class="flex gap-2">
-                            <button
-                                class="incrementation bg-green-500 text-[#042342] font-semibold rounded-lg px-2 py-1 text-xs hover:bg-green-700"
-                                data-key="savings"
-                            >
-                                + Increase
-                            </button>
-                            <button
-                                class="decrementation bg-rose-500 text-[#042342] font-semibold rounded-lg px-2 py-1 text-xs hover:bg-rose-700"
-                                data-key="savings--dec"
-                            >
-                                - Decrease
-                            </button>
-                        </div>
                     </div>
                     <div
                         class="env bg-white/5 backdrop-blur-sm border-white/10 rounded-xl p-3"
@@ -271,31 +257,39 @@
                 >
                     <div>
                         <label class="block text-sm mb-2">Add Expense:</label>
-                        <div class="flex gap-2">
-                            <select
-                                class="rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200"
-                                name="Envelope"
-                                id="expenseEnvelope"
-                            >
-                                <option class="text-black" value="needs">
-                                    Needs
-                                </option>
-                                <option class="text-black" value="wants">
-                                    Wants
-                                </option>
-                            </select>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex gap-2">
+                                <select
+                                    class="rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200"
+                                    name="Envelope"
+                                    id="expenseEnvelope"
+                                >
+                                    <option class="text-black" value="needs">
+                                        Needs
+                                    </option>
+                                    <option class="text-black" value="wants">
+                                        Wants
+                                    </option>
+                                </select>
+                                <input
+                                    class="rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200 outline-none"
+                                    type="text"
+                                    placeholder="Amount (Toman)"
+                                    id="expenseAmount"
+                                />
+                                <button
+                                    class="bg-blue-500 text-[#042342] font-semibold rounded-lg px-3 py-2 hover:bg-blue-700"
+                                    id="submitExpenseBtn"
+                                >
+                                    Submit Expense
+                                </button>
+                            </div>
                             <input
                                 class="rounded-lg border border-white/10 bg-transparent px-3 py-2 text-slate-200 outline-none"
                                 type="text"
-                                placeholder="Amount (Toman)"
-                                id="expenseAmount"
+                                placeholder="Description (optional)"
+                                id="expenseDescription"
                             />
-                            <button
-                                class="bg-blue-500 text-[#042342] font-semibold rounded-lg px-3 py-2 hover:bg-blue-700"
-                                id="submitExpenseBtn"
-                            >
-                                Submit Expense
-                            </button>
                         </div>
                     </div>
                     <div class="text-left w-full md:w-auto">
@@ -326,6 +320,23 @@
                 <div>
                     <div class="text-sm text-slate-400">Total Savings:</div>
                     <div class="text-lg font-bold" id="savings-total">0 T</div>
+                </div>
+            </div>
+            <!-- Expense Logs -->
+            <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 mt-3">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-lg font-semibold">Expense Logs</h3>
+                    <button
+                        class="bg-slate-600 text-white font-semibold rounded-lg px-3 py-1 text-sm hover:bg-slate-700"
+                        id="clearLogsBtn"
+                    >
+                        Clear Logs
+                    </button>
+                </div>
+                <div class="max-h-64 overflow-y-auto" id="expenseLogs">
+                    <div class="text-sm text-slate-400 text-center py-4">
+                        No expenses logged yet
+                    </div>
                 </div>
             </div>
             <!-- Footer -->
